@@ -9,14 +9,14 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace EleasThea.BackEnd.Serverless.Api.Functions
+namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
 {
     public static class FeedbackFunction
     {
         [FunctionName("FeedbackFunction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SendFeedback")] HttpRequest req,
-            [Queue("input-messages")] ICollector<InputMessageItemDTO> inputMessagesQueue,
+            [Queue("input-messages")] ICollector<InputMessageDTO> inputMessagesQueue,
             ILogger logger)
         {
             try
@@ -37,7 +37,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions
                 };
 
                 // enqueue item.
-                inputMessagesQueue.Add(feedbackDTO as InputMessageItemDTO);
+                inputMessagesQueue.Add(feedbackDTO as InputMessageDTO);
 
                 return new AcceptedResult();
             }

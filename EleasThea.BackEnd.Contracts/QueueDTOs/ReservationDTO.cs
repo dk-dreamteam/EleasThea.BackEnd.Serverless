@@ -2,7 +2,7 @@
 
 namespace EleasThea.BackEnd.Contracts.QueueDTOs
 {
-    public class ReservationDTO : InputMessageItemDTO
+    public class ReservationDTO : InputMessageDTO
     {
         public string FullName { get; set; }
         public string Email { get; set; }
