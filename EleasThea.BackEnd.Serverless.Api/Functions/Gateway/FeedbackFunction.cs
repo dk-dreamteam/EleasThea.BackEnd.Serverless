@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
         [FunctionName("FeedbackFunction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "SendFeedback")] HttpRequest req,
-            [Queue("input-messages")] ICollector<InputMessageDTO> inputMessagesQueue,
+            [Queue("input-messages")] ICollector<string> inputMessagesQueue,
             ILogger logger)
         {
             try
@@ -27,17 +28,11 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
                 // validate model. if there are errors, return bad request.
                 if (!feedback.IsValid()) return new BadRequestResult();
 
-                // map input object to queue dto object.
-                var feedbackDTO = new FeedbackDTO
-                {
-                    Email = feedback.Email,
-                    FullName = feedback.FullName,
-                    Message = feedback.Message,
-                    Tel = feedback.Tel
-                };
+                // create json serializer settings to include class type.
+                var jsonSerializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
 
                 // enqueue item.
-                inputMessagesQueue.Add(feedbackDTO as InputMessageDTO);
+                inputMessagesQueue.Add(JsonConvert.SerializeObject(feedback, jsonSerializerSettings));
 
                 return new AcceptedResult();
             }

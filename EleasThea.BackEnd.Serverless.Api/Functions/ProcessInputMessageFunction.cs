@@ -1,22 +1,23 @@
+using EleasThea.BackEnd.Contracts.InputModels;
 using EleasThea.BackEnd.Contracts.QueueDTOs;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EleasThea.BackEnd.Serverless.Api.Functions
 {
     public static class ProcessInputMessageFunction
     {
         [FunctionName("ProcessInputMessageFunction")]
-        public static void Run([QueueTrigger("input-messages")] string inputMessageItemStr, ILogger logger)
+        public static void Run([QueueTrigger("input-messages")] string inputMessageItemStr,
+                               ILogger logger)
         {
-            InputMessageDTO inputMessageItem = JsonConvert.DeserializeObject<InputMessageDTO>(inputMessageItemStr);
-            var inputMessageItemStr2 = JsonConvert.SerializeObject(inputMessageItem);
-            var inputMessageItem2 = JsonConvert.DeserializeObject<FeedbackDTO>(inputMessageItemStr2);
+            // create json serializer settings to include class type.
+            var jsonSerializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
 
-            var feedbackDTO = (FeedbackDTO)inputMessageItem;
+            var inputMessageItem = JsonConvert.DeserializeObject(inputMessageItemStr, jsonSerializerSettings);
 
-            logger.LogInformation($"C# Queue trigger function processed: {inputMessageItemStr}");
         }
     }
 }
