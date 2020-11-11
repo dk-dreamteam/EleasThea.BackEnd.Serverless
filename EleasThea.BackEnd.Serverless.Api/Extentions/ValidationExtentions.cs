@@ -11,7 +11,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Extentions
         /// <returns>Successful or not of validation.</returns>
         public static bool IsValid(this object @object)
         {
-            return Validator.TryValidateObject(@object, new ValidationContext(@object), null);
+            return @object != null ? Validator.TryValidateObject(@object, new ValidationContext(@object), null) : false;
         }
     }
 }

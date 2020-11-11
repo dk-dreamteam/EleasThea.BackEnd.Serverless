@@ -14,7 +14,7 @@ namespace EleasThea.BackEnd.Serverless.Api
     {
         private readonly IConfigurationRoot _config;
 
-        public Startup(IConfigurationRoot config)
+        public Startup()
         {
             _config = new ConfigurationBuilder().AddEnvironmentVariables()
                                                 .Build();

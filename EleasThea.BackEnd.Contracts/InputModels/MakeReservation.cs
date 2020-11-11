@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace EleasThea.BackEnd.Serverless.Api.Models
+namespace EleasThea.BackEnd.Contracts.InputModels
 {
-    public class ReservationTable
+    /// <summary>
+    /// Model can be used in both table reservation and cooking lessons reservation.
+    /// Used as incoming binding model for HTTP Triggered Functions.
+    /// </summary>
+    public class MakeReservation
     {
         [Required]
         public string FullName { get; set; }
