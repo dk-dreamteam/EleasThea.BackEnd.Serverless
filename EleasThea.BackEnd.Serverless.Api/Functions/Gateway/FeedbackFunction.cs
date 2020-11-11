@@ -1,5 +1,4 @@
 using EleasThea.BackEnd.Contracts.InputModels;
-using EleasThea.BackEnd.Contracts.QueueDTOs;
 using EleasThea.BackEnd.Serverless.Api.Extentions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +22,12 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
             try
             {
                 // read body, bind to model.
-                var feedback = await req.GetBodyAsObjectAsync<SendFeedback>();
+                var feedback = await req.GetBodyAsObjectAsync<Feedback>();
 
                 // validate model. if there are errors, return bad request.
                 if (!feedback.IsValid()) return new BadRequestResult();
 
-                // create json serializer settings to include class type.
+                // create json serializer settings to include class type in order to deserialize on the other side.
                 var jsonSerializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
 
                 // enqueue item.

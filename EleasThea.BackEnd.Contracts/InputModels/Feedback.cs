@@ -1,13 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EleasThea.BackEnd.Contracts.InputModels
 {
     /// <summary>
-    /// Model can be used in both table reservation and cooking lessons reservation.
     /// Used as incoming binding model for HTTP Triggered Functions.
     /// </summary>
-    public class MakeReservation
+    public class Feedback
     {
         [Required]
         public string FullName { get; set; }
@@ -19,9 +17,6 @@ namespace EleasThea.BackEnd.Contracts.InputModels
         public string Tel { get; set; }
 
         [Required]
-        public string NumberOfPersons { get; set; }
-
-        [Required]
-        public DateTime DateTimeOfReservation { get; set; }
+        public string Message { get; set; }
     }
 }

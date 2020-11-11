@@ -1,9 +1,6 @@
-using EleasThea.BackEnd.Contracts.InputModels;
-using EleasThea.BackEnd.Contracts.QueueDTOs;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace EleasThea.BackEnd.Serverless.Api.Functions
 {
@@ -18,6 +15,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions
 
             var inputMessageItem = JsonConvert.DeserializeObject(inputMessageItemStr, jsonSerializerSettings);
 
+            // todo: use typeof to determine the type of inputMessageItem.
         }
     }
 }
