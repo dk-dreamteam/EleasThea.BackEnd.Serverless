@@ -26,6 +26,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Utitlities
                 msg.Subject = subject;
                 msg.Body = emailBody;
                 msg.IsBodyHtml = true;
+                
 
                 await _client.SendMailAsync(msg);
                 return;

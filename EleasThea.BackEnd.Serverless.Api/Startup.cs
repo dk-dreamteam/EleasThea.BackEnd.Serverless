@@ -29,8 +29,8 @@ namespace EleasThea.BackEnd.Serverless.Api
                 {
                     Host = _config["EmailHost"],
                     Port = Convert.ToInt32(_config["EmailPort"]),
-                    EnableSsl = true,
                     Timeout = 15000,
+                    EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(_config["EmailFrom"], _config["EmailPassword"])
