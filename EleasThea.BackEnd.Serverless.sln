@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Serverless.Api", "EleasThea.BackEnd.Serverless.Api\EleasThea.BackEnd.Serverless.Api.csproj", "{7385B566-26F9-41E4-A6A6-17EB3F699ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EleasThea.BackEnd.Contracts", "EleasThea.BackEnd.Contracts\EleasThea.BackEnd.Contracts.csproj", "{DEC45605-EAE7-49F8-8986-8FF33F801F06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Contracts", "EleasThea.BackEnd.Contracts\EleasThea.BackEnd.Contracts.csproj", "{DEC45605-EAE7-49F8-8986-8FF33F801F06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
