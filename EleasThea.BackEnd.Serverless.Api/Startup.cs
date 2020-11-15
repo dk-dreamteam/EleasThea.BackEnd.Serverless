@@ -1,4 +1,5 @@
 ﻿using EleasThea.BackEnd.Serverless.Api;
+using EleasThea.BackEnd.Serverless.Api.Utitlities;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,12 +30,14 @@ namespace EleasThea.BackEnd.Serverless.Api
                     Host = _config["EmailHost"],
                     Port = Convert.ToInt32(_config["EmailPort"]),
                     EnableSsl = true,
-                    Timeout = 10000,
+                    Timeout = 15000,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(_config["EmailFrom"], _config["EmailPassword"])
                 };
             });
+
+            builder.Services.AddSingleton<EmailUtility>();
         }
     }
 }

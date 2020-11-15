@@ -22,7 +22,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Utitlities
 
                 var msg = new MailMessage();
                 msg.To.Add(emailAddressesToSendTo);
-                msg.From = new MailAddress("asdf");
+                msg.From = new MailAddress("eleasthea.noreply@yahoo.com");
                 msg.Subject = subject;
                 msg.Body = emailBody;
                 msg.IsBodyHtml = true;
