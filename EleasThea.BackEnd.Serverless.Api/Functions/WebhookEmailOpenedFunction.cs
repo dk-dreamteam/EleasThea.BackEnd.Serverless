@@ -20,11 +20,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions
             var responseΜessage = req.CreateResponse(HttpStatusCode.OK);
             responseΜessage.Headers.CacheControl = new CacheControlHeaderValue()
             {
-                MaxAge = new TimeSpan(0),
-                Private = true,
-                NoCache = true,
-                NoStore = true,
-                MustRevalidate = true,
+                NoStore = true
             };
             responseΜessage.Headers.Pragma.Add(new NameValueHeaderValue("no-cache"));
             return responseΜessage;
