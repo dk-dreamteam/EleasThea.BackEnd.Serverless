@@ -1,6 +1,10 @@
+using EleasThea.BackEnd.Contracts.QueueModels;
 using EleasThea.BackEnd.Serverless.Api.Utitlities;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage.Table;
+using System;
+using System.Threading.Tasks;
 
 namespace EleasThea.BackEnd.Serverless.Api.Functions
 {
@@ -14,11 +18,25 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions
         }
 
         [FunctionName("SendEmailFunction")]
-        public void Run([QueueTrigger("send-email")] string myQueueItem, ILogger logger)
+        public async Task RunAsync([QueueTrigger("send-email")] SendEmailQueueItem sendEmailQueueItem,
+                                   [Table("")] CloudTable table,
+                                   ILogger logger)
         {
-            JsonConvert.Get
+            bool transmitionWasSuccessful;
+            try
+            {
+                // todo: figure a way to pass an array or a string as an email address.
+                await _emailUtil.SendEmailAsync(new string[] { sendEmailQueueItem.Entity.ToString() }, sendEmailQueueItem.Subject, sendEmailQueueItem.HtmlContent);
+                transmitionWasSuccessful = true;
+            }
+            catch (Exception exc)
+            {
+                transmitionWasSuccessful = false;
+            }
 
-            _emailUtil.SendEmailAsync()
+            var entityToUpdate = new TableEntity();
+            var updateOperation = TableOperation.Merge(entityToUpdate);
+            await table.ExecuteAsync(updateOperation);
         }
     }
 }
