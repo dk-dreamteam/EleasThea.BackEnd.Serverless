@@ -1,5 +1,6 @@
 using EleasThea.BackEnd.Contracts.InputModels;
-using EleasThea.BackEnd.Serverless.Api.Extentions;
+using EleasThea.BackEnd.Extentions;
+using EleasThea.BackEnd.Serverless.Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -11,21 +12,28 @@ using System.Threading.Tasks;
 
 namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
 {
-    public static class ReservationFunction
+    public static class MakeReservationFunction
     {
         [FunctionName("MakeReservationFunction")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "MakeReservation")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Reservation/{reservationType}")] HttpRequest req, string reservationType,
             [Queue("input-messages")] ICollector<string> inputMessagesQueue,
             ILogger logger)
         {
             try
             {
-                // read body, bind to model.
-                var reservation = await req.GetBodyAsObjectAsync<Reservation>();
+                // read body, bind to appopriate model.
+                Reservation reservation;
+
+                if (reservationType.ToLower() == ReservationType.CookingClass.ToString().ToLower())
+                    reservation = await req.GetBodyAsObjectAsync<CookingClassReservation>();
+                else if (reservationType.ToLower() == ReservationType.Table.ToString().ToLower())
+                    reservation = await req.GetBodyAsObjectAsync<TableReservation>();
+                else
+                    return new BadRequestObjectResult($"{reservationType} is not a valid Reservation Type. Please use \"CookingClass\" or \"Table\"");
 
                 // validate model. if there are errors, return bad request.
-                if (!reservation.IsValid()) return new BadRequestResult();
+                if (!reservation.IsModelValid(out var reservationValidationResults)) return new BadRequestObjectResult(reservationValidationResults);
 
                 // create json serializer settings to include class type in order to deserialize on the other side.
                 var jsonSerializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };

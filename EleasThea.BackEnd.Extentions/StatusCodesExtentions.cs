@@ -1,4 +1,4 @@
-﻿namespace EleasThea.BackEnd.Serverless.Api.Extentions
+﻿namespace EleasThea.BackEnd.Extentions
 {
     public static class StatusCodesExtentions
     {

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace EleasThea.BackEnd.Serverless.Api.Extentions
+namespace EleasThea.BackEnd.Extentions
 {
     public static class HttpRequestExtentions
     {
@@ -17,7 +17,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Extentions
         {
             using (var requestBodyAsStream = new StreamReader(req.Body))
             {
-                return JsonConvert.DeserializeObject<T>((await requestBodyAsStream.ReadToEndAsync()), new JsonSerializerSettings { });
+                return JsonConvert.DeserializeObject<T>(await requestBodyAsStream.ReadToEndAsync(), new JsonSerializerSettings { });
             }
         }
     }

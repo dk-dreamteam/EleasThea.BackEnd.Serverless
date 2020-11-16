@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Serverles
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Contracts", "EleasThea.BackEnd.Contracts\EleasThea.BackEnd.Contracts.csproj", "{DEC45605-EAE7-49F8-8986-8FF33F801F06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EleasThea.BackEnd.Extentions", "EleasThea.BackEnd.Extentions\EleasThea.BackEnd.Extentions.csproj", "{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DEC45605-EAE7-49F8-8986-8FF33F801F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEC45605-EAE7-49F8-8986-8FF33F801F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEC45605-EAE7-49F8-8986-8FF33F801F06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 using EleasThea.BackEnd.Contracts.InputModels;
-using EleasThea.BackEnd.Serverless.Api.Extentions;
+using EleasThea.BackEnd.Extentions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
 {
-    public static class FeedbackFunction
+    public static class SendFeedbackFunction
     {
         [FunctionName("FeedbackFunction")]
         public static async Task<IActionResult> Run(
@@ -25,7 +25,7 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
                 var feedback = await req.GetBodyAsObjectAsync<Feedback>();
 
                 // validate model. if there are errors, return bad request.
-                if (!feedback.IsValid()) return new BadRequestResult();
+                if (!feedback.IsModelValid(out var feedValidationResults)) return new BadRequestObjectResult(feedValidationResults);
 
                 // create json serializer settings to include class type in order to deserialize on the other side.
                 var jsonSerializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
