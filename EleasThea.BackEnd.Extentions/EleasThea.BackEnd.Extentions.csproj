@@ -10,4 +10,8 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EleasThea.BackEnd.Contracts\EleasThea.BackEnd.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

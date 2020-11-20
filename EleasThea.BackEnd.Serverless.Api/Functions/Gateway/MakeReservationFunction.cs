@@ -23,12 +23,12 @@ namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
             try
             {
                 // read body, bind to appopriate model.
-                Reservation reservation;
+                ReservationMessage reservation;
 
                 if (reservationType.ToLower() == ReservationType.CookingClass.ToString().ToLower())
-                    reservation = await req.GetBodyAsObjectAsync<CookingClassReservation>();
+                    reservation = await req.GetBodyAsObjectAsync<CookingClassReservationMessage>();
                 else if (reservationType.ToLower() == ReservationType.Table.ToString().ToLower())
-                    reservation = await req.GetBodyAsObjectAsync<TableReservation>();
+                    reservation = await req.GetBodyAsObjectAsync<TableReservationMessage>();
                 else
                     return new BadRequestObjectResult($"{reservationType} is not a valid Reservation Type. Please use \"CookingClass\" or \"Table\"");
 

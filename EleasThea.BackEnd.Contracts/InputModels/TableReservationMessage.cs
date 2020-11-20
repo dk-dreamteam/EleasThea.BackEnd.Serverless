@@ -1,6 +1,6 @@
 ﻿namespace EleasThea.BackEnd.Contracts.InputModels
 {
-    public class TableReservation : Reservation
+    public class TableReservationMessage : ReservationMessage
     {
     }
 }

@@ -8,7 +8,5 @@ namespace EleasThea.BackEnd.Contracts.TableStorageModels
         public string Email { get; set; }
         public string Tel { get; set; }
         public string Message { get; set; }
-        public bool Delivered { get; set; }
-        public EmailTransmissionStatus TransmissionToRestaurantStatus { get; set; }
     }
 }
