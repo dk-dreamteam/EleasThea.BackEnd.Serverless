@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
+namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
 {
     public static class SendFeedbackFunction
     {

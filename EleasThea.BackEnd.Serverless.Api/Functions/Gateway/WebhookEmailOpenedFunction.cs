@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace EleasThea.BackEnd.Serverless.Api.Functions
+namespace EleasThea.BackEnd.Serverless.Services.Functions
 {
     public static class WebhookEmailOpenedFunction
     {

@@ -1,6 +1,6 @@
 using EleasThea.BackEnd.Contracts.InputModels;
 using EleasThea.BackEnd.Extentions;
-using EleasThea.BackEnd.Serverless.Api.Models;
+using EleasThea.BackEnd.Serverless.Services.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace EleasThea.BackEnd.Serverless.Api.Functions.Gateway
+namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
 {
     public static class MakeReservationFunction
     {

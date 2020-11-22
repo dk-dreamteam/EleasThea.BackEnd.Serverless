@@ -2,9 +2,9 @@
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace EleasThea.BackEnd.Serverless.Api.Utitlities
+namespace EleasThea.BackEnd.Serverless.Services.Utitlities
 {
-    public class EmailUtility
+    public class EmailUtility : IEmailUtility
     {
         private readonly SmtpClient _client;
         private readonly string FromEmailAddress;
@@ -15,14 +15,12 @@ namespace EleasThea.BackEnd.Serverless.Api.Utitlities
             FromEmailAddress = fromEmailAddress;
         }
 
-        public async Task SendEmailAsync(string[] recipients, string subject, string body)
+        public async Task SendEmailAsync(string recipient, string subject, string body)
         {
             try
             {
-                var emailAddressesToSendTo = string.Join(",", recipients);//Create a string of all recievers...
-
                 var msg = new MailMessage();
-                msg.To.Add(emailAddressesToSendTo);
+                msg.To.Add(new MailAddress(recipient));
                 msg.From = new MailAddress(FromEmailAddress);
                 msg.Subject = subject;
                 msg.Body = body;

@@ -1,5 +1,5 @@
-﻿using EleasThea.BackEnd.Serverless.Api;
-using EleasThea.BackEnd.Serverless.Api.Utitlities;
+﻿using EleasThea.BackEnd.Serverless.Services;
+using EleasThea.BackEnd.Serverless.Services.Utitlities;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +9,7 @@ using System.Net.Mail;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
-namespace EleasThea.BackEnd.Serverless.Api
+namespace EleasThea.BackEnd.Serverless.Services
 {
     class Startup : FunctionsStartup
     {
@@ -36,7 +36,7 @@ namespace EleasThea.BackEnd.Serverless.Api
                 };
             });
 
-            builder.Services.AddSingleton<EmailUtility>();
+            builder.Services.AddSingleton<IEmailUtility, EmailUtility>();
         }
     }
 }

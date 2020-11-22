@@ -1,13 +1,13 @@
 ﻿namespace EleasThea.BackEnd.Contracts
 {
     /// <summary>
-    /// Used to describe the status email transmission for every entry.
+    /// Used to describe the status of an email transmission.
     /// </summary>
-    public enum EmailTransmissionStatus
+    public enum TransmissionStatus
     {
+        // is the default value in initializing parent object.
         Pending,
         Unsuccessful,
         Sent,
-        Read
     }
 }

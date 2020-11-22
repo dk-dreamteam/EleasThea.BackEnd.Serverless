@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Serverless.Api", "EleasThea.BackEnd.Serverless.Api\EleasThea.BackEnd.Serverless.Api.csproj", "{7385B566-26F9-41E4-A6A6-17EB3F699ABE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Serverless.Services", "EleasThea.BackEnd.Serverless.Api\EleasThea.BackEnd.Serverless.Services.csproj", "{7385B566-26F9-41E4-A6A6-17EB3F699ABE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Contracts", "EleasThea.BackEnd.Contracts\EleasThea.BackEnd.Contracts.csproj", "{DEC45605-EAE7-49F8-8986-8FF33F801F06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EleasThea.BackEnd.Extentions", "EleasThea.BackEnd.Extentions\EleasThea.BackEnd.Extentions.csproj", "{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Extentions", "EleasThea.BackEnd.Extentions\EleasThea.BackEnd.Extentions.csproj", "{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EleasThea.BackEnd.Utilities", "EleasThea.BackEnd.Utilities\EleasThea.BackEnd.Utilities.csproj", "{875AF059-541D-4418-ABC4-F0368E1CF8B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875AF059-541D-4418-ABC4-F0368E1CF8B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875AF059-541D-4418-ABC4-F0368E1CF8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875AF059-541D-4418-ABC4-F0368E1CF8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875AF059-541D-4418-ABC4-F0368E1CF8B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

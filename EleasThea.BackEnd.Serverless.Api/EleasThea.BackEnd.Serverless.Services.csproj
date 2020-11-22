@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EleasThea.BackEnd.Contracts\EleasThea.BackEnd.Contracts.csproj" />
     <ProjectReference Include="..\EleasThea.BackEnd.Extentions\EleasThea.BackEnd.Extentions.csproj" />
+    <ProjectReference Include="..\EleasThea.BackEnd.Utilities\EleasThea.BackEnd.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

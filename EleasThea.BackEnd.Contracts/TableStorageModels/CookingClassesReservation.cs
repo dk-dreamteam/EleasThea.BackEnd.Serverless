@@ -10,7 +10,7 @@ namespace EleasThea.BackEnd.Contracts.TableStorageModels
         public string Tel { get; set; }
         public string NumberOfPersons { get; set; }
         public DateTime DateTimeOfReservation { get; set; }
-        public EmailTransmissionStatus TransmissionToRestaurantStatus { get; set; }
-        public EmailTransmissionStatus TransmissionToCustomerStatus { get; set; }
+        public TransmissionStatus TransmissionToRestaurantStatus { get; set; }
+        public TransmissionStatus TransmissionToCustomerStatus { get; set; }
     }
 }
