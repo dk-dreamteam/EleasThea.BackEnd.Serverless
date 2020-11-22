@@ -14,8 +14,22 @@ namespace EleasThea.BackEnd.Extentions
         /// <returns>TableEntity derived class object with Partition and Row keys.</returns>
         public static TableEntity GeneratePartitionAndRowKeys(this TableEntity tableEntity, string partitionKey = null, string rowKey = null)
         {
-            tableEntity.PartitionKey = partitionKey ?? Guid.NewGuid().ToString();
-            tableEntity.RowKey = rowKey ?? Guid.NewGuid().ToString();
+            var newGuid = Guid.NewGuid();
+            tableEntity.PartitionKey = partitionKey ?? newGuid.ToString();
+            tableEntity.RowKey = rowKey ?? newGuid.ToString();
+            return tableEntity;
+        }
+
+        /// <summary>
+        /// Generate partition and row keys.
+        /// </summary>
+        /// <param name="tableEntity">TableEntity derived class object to assign partition and row key.</param>
+        /// <param name="commonKey">Key to be used as PartionKey and RowKey</param>
+        /// <returns>TableEntity derived class object with Partition and Row keys.</returns>
+        public static TableEntity GeneratePartitionAndRowKeys(this TableEntity tableEntity, string commonKey)
+        {
+            tableEntity.PartitionKey = commonKey;
+            tableEntity.RowKey = commonKey;
             return tableEntity;
         }
     }

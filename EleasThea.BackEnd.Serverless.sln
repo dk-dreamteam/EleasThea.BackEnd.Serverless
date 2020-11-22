@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Contracts
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Extentions", "EleasThea.BackEnd.Extentions\EleasThea.BackEnd.Extentions.csproj", "{B26B3F55-7D43-47CE-9CE9-6558BCEEE1DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EleasThea.BackEnd.Utilities", "EleasThea.BackEnd.Utilities\EleasThea.BackEnd.Utilities.csproj", "{875AF059-541D-4418-ABC4-F0368E1CF8B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EleasThea.BackEnd.Utilities", "EleasThea.BackEnd.Utilities\EleasThea.BackEnd.Utilities.csproj", "{875AF059-541D-4418-ABC4-F0368E1CF8B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

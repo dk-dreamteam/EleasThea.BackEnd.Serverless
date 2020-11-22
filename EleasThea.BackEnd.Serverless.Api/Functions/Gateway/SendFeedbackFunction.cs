@@ -12,7 +12,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
 {
     public static class SendFeedbackFunction
     {
-        [FunctionName("FeedbackFunction")]
+        [FunctionName("SendFeedbackFunction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Feedback")] HttpRequest req,
             [Queue("feedback-msgs")] ICollector<FeedbackMessage> feedbackMessagesQueue,

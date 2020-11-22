@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
 
 namespace EleasThea.BackEnd.Contracts.TableStorageModels
 {
@@ -6,5 +7,6 @@ namespace EleasThea.BackEnd.Contracts.TableStorageModels
     {
         public TransmissionStatus Status { get; set; }
         public bool Opened { get; set; }
+        public DateTime? LastOpenedOnUtc { get; set; }
     }
 }

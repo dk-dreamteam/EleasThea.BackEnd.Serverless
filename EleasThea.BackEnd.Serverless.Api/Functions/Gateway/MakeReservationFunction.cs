@@ -16,7 +16,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
     {
         [FunctionName("MakeReservationFunction")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Reservation/{reservationType}")] HttpRequest req, string reservationType,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Reservation/{reservationType}")] HttpRequest req, string reservationType,
             [Queue("input-messages")] ICollector<string> inputMessagesQueue,
             ILogger logger)
         {
