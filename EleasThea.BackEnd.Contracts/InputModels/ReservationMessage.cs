@@ -7,7 +7,7 @@ namespace EleasThea.BackEnd.Contracts.InputModels
     /// Model can be used in both table reservation and cooking lessons reservation.
     /// Used as incoming binding model for HTTP Triggered Functions.
     /// </summary>
-    public abstract class ReservationMessage
+    public class ReservationMessage
     {
         [Required]
         public string FullName { get; set; }

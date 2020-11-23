@@ -1,4 +1,5 @@
 using EleasThea.BackEnd.Contracts.InputModels;
+using EleasThea.BackEnd.Contracts.QueueModels;
 using EleasThea.BackEnd.Extentions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,21 +16,23 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
         [FunctionName("SendFeedbackFunction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Feedback")] HttpRequest req,
-            [Queue("feedback-msgs")] ICollector<FeedbackMessage> feedbackMessagesQueue,
+            [Queue("feedback-msgs")] ICollector<FeedbackQueueItem> feedbackMsgsQueue,
             ILogger logger)
         {
             try
             {
                 // read body, bind to model.
-                var feedback = await req.GetBodyAsObjectAsync<FeedbackMessage>();
-                logger.LogInformation($"{nameof(SendFeedbackFunction)} triggered.", feedback);
+                var feedbackMessage = await req.GetBodyAsObjectAsync<FeedbackMessage>();
 
                 // validate model. if there are errors, return bad request.
-                if (!feedback.IsModelValid(out var feedValidationResults)) return new BadRequestObjectResult(feedValidationResults);
+                if (!feedbackMessage.IsModelValid(out var feedValidationResults))
+                    return new BadRequestObjectResult(feedValidationResults);
+
+                // map input message to queue item dto.
+                var feedbackQueueItemDto = feedbackMessage.MapToQueueItem();
 
                 // enqueue item.
-                feedbackMessagesQueue.Add(feedback);
-                logger.LogInformation($"Message enqueued.");
+                feedbackMsgsQueue.Add(feedbackQueueItemDto);
 
                 return new AcceptedResult();
             }

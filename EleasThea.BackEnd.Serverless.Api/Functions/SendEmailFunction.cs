@@ -1,4 +1,4 @@
-using EleasThea.BackEnd.Contracts;
+using EleasThea.BackEnd.Contracts.Enums;
 using EleasThea.BackEnd.Contracts.QueueModels;
 using EleasThea.BackEnd.Contracts.TableStorageModels;
 using EleasThea.BackEnd.Extentions;

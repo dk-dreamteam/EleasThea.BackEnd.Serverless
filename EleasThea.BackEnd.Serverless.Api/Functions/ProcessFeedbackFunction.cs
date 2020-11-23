@@ -1,5 +1,4 @@
-﻿using EleasThea.BackEnd.Contracts.InputModels;
-using EleasThea.BackEnd.Contracts.QueueModels;
+﻿using EleasThea.BackEnd.Contracts.QueueModels;
 using EleasThea.BackEnd.Extentions;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -14,7 +13,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
     public static class ProcessFeedbackFunction
     {
         [FunctionName("ProcessFeedbackFunction")]
-        public static async Task RunAsync([QueueTrigger("feedback-msgs")] FeedbackMessage inputFeedback,
+        public static async Task RunAsync([QueueTrigger("feedback-msgs")] FeedbackQueueItem feedbackQueueItem,
                                    [Table("Feedbacks")] CloudTable feedbacksTable,
                                    [Queue("send-emails")] ICollector<SendEmailQueueItem> sendEmailsQueueCollector,
                                    [Blob("resources")] CloudBlobContainer container,
@@ -22,7 +21,8 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
         {
             #region save feedback to table.
             // use custom extention method to map input model to table entity derived class model.
-            var feedback = inputFeedback.MapToTableEntity();
+
+            var feedback = feedbackQueueItem.MapToTableEntity();
             // generate partition and row keys.
             feedback.GeneratePartitionAndRowKeys(feedback.Email);
 

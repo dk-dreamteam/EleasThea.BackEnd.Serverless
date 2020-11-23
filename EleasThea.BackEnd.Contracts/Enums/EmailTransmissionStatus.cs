@@ -1,4 +1,4 @@
-﻿namespace EleasThea.BackEnd.Contracts
+﻿namespace EleasThea.BackEnd.Contracts.Enums
 {
     /// <summary>
     /// Used to describe the status of an email transmission.

@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+﻿using EleasThea.BackEnd.Contracts.Enums;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 
 namespace EleasThea.BackEnd.Contracts.TableStorageModels
