@@ -23,7 +23,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
         [return: Table("Transmissions")]
         [FunctionName("SendEmailFunction")]
         public async Task<Transmission> RunAsync([QueueTrigger("send-email")] SendEmailQueueItem sendEmailQueueItem,
-                                   ILogger logger)
+                                                 ILogger logger)
         {
             // create transmission object and assign partition and row keys.
             var transmission = new Transmission();

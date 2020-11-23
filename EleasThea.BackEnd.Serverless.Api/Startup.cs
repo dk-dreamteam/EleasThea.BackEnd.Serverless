@@ -36,7 +36,10 @@ namespace EleasThea.BackEnd.Serverless.Services
                 };
             });
 
-            builder.Services.AddSingleton<IEmailUtility, EmailUtility>();
+            builder.Services.AddSingleton<IEmailUtility>(Factory =>
+            {
+                return new EmailUtility(builder.Services.BuildServiceProvider().GetRequiredService<SmtpClient>(), _config["EmailFrom"]);
+            });
         }
     }
 }
