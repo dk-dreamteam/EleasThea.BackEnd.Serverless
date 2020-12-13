@@ -14,41 +14,44 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
     {
         [FunctionName("ProcessFeedbackFunction")]
         public static async Task RunAsync([QueueTrigger("feedback-msgs")] FeedbackQueueItem feedbackQueueItem,
-                                   [Table("Feedbacks")] CloudTable feedbacksTable,
-                                   [Queue("send-emails")] ICollector<SendEmailQueueItem> sendEmailsQueueCollector,
-                                   [Blob("resources")] CloudBlobContainer container,
-                                   ILogger logger)
+                                          [Table("Feedbacks")] CloudTable feedbacksTable,
+                                          [Queue("send-emails")] ICollector<SendEmailQueueItem> sendEmailsQueue,
+                                          [Blob("templates")] CloudBlobContainer container,
+                                          ILogger logger)
         {
             #region save feedback to table.
             // use custom extention method to map input model to table entity derived class model.
-
             var feedback = feedbackQueueItem.MapToTableEntity();
+
             // generate partition and row keys.
-            feedback.GeneratePartitionAndRowKeys(feedback.Email);
+            feedback.GeneratePartitionAndRowKeys(feedback.Email, null);
 
             var insertIntoTableOperation = TableOperation.Insert(feedback);
             await feedbacksTable.ExecuteAsync(insertIntoTableOperation);
             #endregion
 
 
-            #region prepare email body.
+            #region prepare email body for restaurant.
             // get template from blob storage.
-            var customerEmailHtmlReference = container.GetBlockBlobReference("templates/ThankYouForYourFeedback.html");
-            var customerEmailHtmlStream = new MemoryStream();
-            await customerEmailHtmlReference.DownloadToStreamAsync(customerEmailHtmlStream);
-            var customerEmailHtmlStr = Encoding.UTF8.GetString(customerEmailHtmlStream.ToArray());
+            using var restaurantEmailHtmlStream = new MemoryStream();
 
+            await container.GetBlockBlobReference("restaurant/NewFeedback.html")
+                           .DownloadToStreamAsync(restaurantEmailHtmlStream);
+
+            var restaurantEmailHtmlStr = Encoding.UTF8.GetString(restaurantEmailHtmlStream.ToArray());
+            
             // todo: implement template value replacing here.
             #endregion
 
 
-            #region send email to customer.
+            #region send email to restaurant
             // enqueue to send emails queue.
-            sendEmailsQueueCollector.Add(new SendEmailQueueItem()
+            sendEmailsQueue.Add(new SendEmailQueueItem()
             {
-                HtmlContent = customerEmailHtmlStr,
-                ReciepientAddress = feedback.Email,
-                Subject = "Ευχαριστούμε που μας είπατε τη γνώμη σας"
+                ReferenceToFeedbackRowKey = feedback.RowKey,
+                HtmlContent = restaurantEmailHtmlStr,
+                ReciepientAddress = "kon.kri@outlook.com", // todo: fix restaurant address.
+                Subject = "Νέο Feedback!",
             });
             #endregion
         }

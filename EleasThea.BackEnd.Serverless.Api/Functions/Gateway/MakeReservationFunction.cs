@@ -1,7 +1,7 @@
+using EleasThea.BackEnd.Contracts.Enums;
 using EleasThea.BackEnd.Contracts.InputModels;
 using EleasThea.BackEnd.Contracts.QueueModels;
 using EleasThea.BackEnd.Extentions;
-using EleasThea.BackEnd.Serverless.Services.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -16,7 +16,8 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
     {
         [FunctionName("MakeReservationFunction")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Reservation/{reservationType}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "{language}/Reservation/{reservationType}")] HttpRequest req,
+            string language,
             string reservationType,
             [Queue("reservation-msgs")] ICollector<ReservationQueueItem> reservationMsgsQueue,
             ILogger logger)
@@ -40,6 +41,18 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
                     reservationQueueItemDto.Type = ReservationType.Table;
                 else
                     return new BadRequestObjectResult($"{reservationType} is not a valid Reservation Type. Please use \"CookingClass\" or \"Table\"");
+
+                // assign language to reservation.
+                if (language.ToLower() == Language.EN.ToString().ToLower())
+                    reservationQueueItemDto.MadeInLanguage = Language.EN;
+                else if (language.ToLower() == Language.FR.ToString().ToLower())
+                    reservationQueueItemDto.MadeInLanguage = Language.FR;
+                else if (language.ToLower() == Language.IT.ToString().ToLower())
+                    reservationQueueItemDto.MadeInLanguage = Language.IT;
+                else if (language.ToLower() == Language.GR.ToString().ToLower())
+                    reservationQueueItemDto.MadeInLanguage = Language.GR;
+                else
+                    return new BadRequestObjectResult($"{language} is not a valid language. Please use \"en\", \"fr\", \"it\" or \"gr\"");
 
                 // enqueue item.
                 reservationMsgsQueue.Add(reservationQueueItemDto);

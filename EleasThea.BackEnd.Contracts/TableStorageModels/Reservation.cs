@@ -1,4 +1,4 @@
-﻿using EleasThea.BackEnd.Serverless.Services.Models;
+﻿using EleasThea.BackEnd.Contracts.Enums;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 
@@ -12,6 +12,7 @@ namespace EleasThea.BackEnd.Contracts.TableStorageModels
         public string NumberOfPersons { get; set; }
         public DateTime DateTimeOfReservation { get; set; }
         public ReservationType Type { get; set; }
+        public Language MadeInLanguage { get; set; }
         public bool? Approved { get; set; }
         public DateTime? ApprovedOnUtc { get; set; }
     }

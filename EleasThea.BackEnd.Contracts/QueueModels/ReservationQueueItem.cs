@@ -1,4 +1,4 @@
-﻿using EleasThea.BackEnd.Serverless.Services.Models;
+﻿using EleasThea.BackEnd.Contracts.Enums;
 using System;
 
 namespace EleasThea.BackEnd.Contracts.QueueModels
@@ -14,5 +14,6 @@ namespace EleasThea.BackEnd.Contracts.QueueModels
         public string NumberOfPersons { get; set; }
         public DateTime DateTimeOfReservation { get; set; }
         public ReservationType Type { get; set; }
+        public Language MadeInLanguage { get; set; }
     }
 }

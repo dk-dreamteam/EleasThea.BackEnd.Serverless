@@ -15,6 +15,8 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
 {
     public static class ProcessReservationApprovalFunction
     {
+        // Non operational.
+        [Disable]
         [FunctionName("ProcessReservationApprovalFunction")]
         public static async Task RunAsync(
             [QueueTrigger("reservation-approved-wbhks")] string approvedReservationId,

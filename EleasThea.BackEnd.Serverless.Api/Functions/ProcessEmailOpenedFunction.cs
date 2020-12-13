@@ -3,7 +3,6 @@ using EleasThea.BackEnd.Extentions;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
 using System.Threading.Tasks;
 
 namespace EleasThea.BackEnd.Serverless.Services.Functions
@@ -19,11 +18,10 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
             var transmissionToUpdate = new Transmission()
             {
                 Opened = true,
-                LastOpenedOnUtc = DateTime.UtcNow
             };
 
             // assign row and partition keys as the transmission id to updated in the table.
-            transmissionToUpdate.GeneratePartitionAndRowKeys(transmissionId);
+            transmissionToUpdate.GeneratePartitionAndRowKeys();
 
             // insert or merge transmission as read.
             var insertOrMergeTableOperation = TableOperation.InsertOrMerge(transmissionToUpdate);

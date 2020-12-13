@@ -22,9 +22,9 @@ namespace EleasThea.BackEnd.Extentions
         };
 
         /// <summary>
-        /// Map InputModel to TableEntity.
+        /// Map QueueModel to TableEntity.
         /// </summary>
-        /// <param name="reservation">Reservation input model to map.</param>
+        /// <param name="reservation">Reservation queue model to map.</param>
         /// <returns>Reservation</returns>
         public static Reservation MapToTableEntity(this ReservationQueueItem reservation) => new Reservation
         {
@@ -33,7 +33,8 @@ namespace EleasThea.BackEnd.Extentions
             FullName = reservation.FullName,
             NumberOfPersons = reservation.NumberOfPersons,
             Tel = reservation.Tel,
-            Type = reservation.Type
+            Type = reservation.Type,
+            MadeInLanguage = reservation.MadeInLanguage
         };
         #endregion
 

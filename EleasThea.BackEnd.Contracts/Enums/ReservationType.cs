@@ -1,4 +1,4 @@
-﻿namespace EleasThea.BackEnd.Serverless.Services.Models
+﻿namespace EleasThea.BackEnd.Contracts.Enums
 {
     public enum ReservationType
     {

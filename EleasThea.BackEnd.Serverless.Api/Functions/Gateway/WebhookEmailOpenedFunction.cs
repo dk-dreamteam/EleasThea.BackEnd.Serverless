@@ -15,11 +15,11 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
             [Queue("email-opened-wbhks")] ICollector<string> emailOpenedTransIdsCollector,
             ILogger log)
         {
-            // get transmissionId from query param.
-            var transmissionId = req.Query["tId"];
+            // get transmission row key from query param.
+            var transmissionRowKey = req.Query["trk"];
 
             // enqueue transmissionId to be processed later.
-            emailOpenedTransIdsCollector.Add(transmissionId);
+            emailOpenedTransIdsCollector.Add(transmissionRowKey);
 
             // create response to avoid caching and be able to reregister next opening event.
             req.HttpContext.Response.Headers.Add("Cache-Control", "no-store, max-age=0"); // for HTTP 1.1

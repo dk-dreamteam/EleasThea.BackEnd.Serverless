@@ -9,6 +9,8 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
 {
     public static class WebhookReservationApprovalFunction
     {
+        // Non operational.
+        [Disable]
         [FunctionName("WebhookReservationApprovalFunction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Reservation/Approval/{reservationType}")] HttpRequest req,
