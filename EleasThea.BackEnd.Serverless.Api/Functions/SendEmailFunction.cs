@@ -25,18 +25,18 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
         public async Task<Transmission> RunAsync([QueueTrigger("send-emails")] SendEmailQueueItem sendEmailQueueItem,
                                                  ILogger logger)
         {
-            // create transmission object and assign partition and row keys.
             var transmission = new Transmission()
             {
                 TransmittedOnUtc = DateTime.UtcNow,
-                ReferenceToFeedbackRowKey = sendEmailQueueItem.ReferenceToFeedbackRowKey,
-                ReferenceToReservationRowKey = sendEmailQueueItem.ReferenceToReservationRowKey,
+                ReferenceToFeedbackRowKey = string.IsNullOrWhiteSpace(sendEmailQueueItem.ReferenceToFeedbackRowKey) ? null : sendEmailQueueItem.ReferenceToFeedbackRowKey,
+                ReferenceToReservationRowKey = string.IsNullOrWhiteSpace(sendEmailQueueItem.ReferenceToReservationRowKey) ? null : sendEmailQueueItem.ReferenceToReservationRowKey,
+                HtmlContent = sendEmailQueueItem.HtmlContent
             };
 
             transmission.GeneratePartitionAndRowKeys(sendEmailQueueItem.ReciepientAddress, null);
 
             // add img element to html content for registering open events in this webhook uri.
-            var body = AddWebhookUrl(sendEmailQueueItem.HtmlContent, $"asdf.net?tId={transmission.RowKey}");
+            var body = sendEmailQueueItem.HtmlContent; /*AddWebhookUrl(sendEmailQueueItem.HtmlContent, $"https://platform-auth.free.beeceptor.com?tId={transmission.RowKey}");*/
 
             var tries = 1;
             bool transmissionWasSuccessful = false;

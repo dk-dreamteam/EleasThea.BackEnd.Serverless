@@ -9,7 +9,7 @@ namespace EleasThea.BackEnd.Contracts.TableStorageModels
         public string ReferenceToReservationRowKey { get; set; }
         public string ReferenceToFeedbackRowKey { get; set; }
         public TransmissionStatus Status { get; set; }
-        public string Body { get; set; }
+        public string HtmlContent { get; set; }
         public bool Opened { get; set; }
         public DateTime? TransmittedOnUtc { get; set; }
     }

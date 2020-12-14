@@ -1,11 +1,11 @@
 using EleasThea.BackEnd.Contracts.InputModels;
+using EleasThea.BackEnd.Contracts.QueueModels;
 using EleasThea.BackEnd.Extentions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -16,7 +16,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
         [FunctionName("SendFeedbackFunction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Feedback")] HttpRequest req,
-            [Queue("feedback-msgs")] ICollector<string> feedbackMsgsQueue,
+            [Queue("feedback-msgs")] ICollector<FeedbackQueueItem> feedbackMsgsQueue,
             ILogger logger)
         {
             try
@@ -32,7 +32,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions.Gateway
                 var feedbackQueueItemDto = feedbackMessage.MapToQueueItem();
 
                 // enqueue item.
-                feedbackMsgsQueue.Add(JsonConvert.SerializeObject(feedbackQueueItemDto));
+                feedbackMsgsQueue.Add(feedbackQueueItemDto);
 
                 return new AcceptedResult();
             }

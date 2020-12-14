@@ -20,10 +20,8 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
                                           ILogger logger)
         {
             #region save feedback to table.
-            // use custom extention method to map input model to table entity derived class model.
             var feedback = feedbackQueueItem.MapToTableEntity();
 
-            // generate partition and row keys.
             feedback.GeneratePartitionAndRowKeys(feedback.Email, null);
 
             var insertIntoTableOperation = TableOperation.Insert(feedback);
@@ -32,25 +30,22 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
 
 
             #region prepare email body for restaurant.
-            // get template from blob storage.
             using var restaurantEmailHtmlStream = new MemoryStream();
 
             await container.GetBlockBlobReference("restaurant/NewFeedback.html")
                            .DownloadToStreamAsync(restaurantEmailHtmlStream);
 
             var restaurantEmailHtmlStr = Encoding.UTF8.GetString(restaurantEmailHtmlStream.ToArray());
-            
             // todo: implement template value replacing here.
             #endregion
 
 
             #region send email to restaurant
-            // enqueue to send emails queue.
             sendEmailsQueue.Add(new SendEmailQueueItem()
             {
                 ReferenceToFeedbackRowKey = feedback.RowKey,
                 HtmlContent = restaurantEmailHtmlStr,
-                ReciepientAddress = "kon.kri@outlook.com", // todo: fix restaurant address.
+                ReciepientAddress = "dim.grev@outlook.com", // todo: fix restaurant address.
                 Subject = "Νέο Feedback!",
             });
             #endregion
