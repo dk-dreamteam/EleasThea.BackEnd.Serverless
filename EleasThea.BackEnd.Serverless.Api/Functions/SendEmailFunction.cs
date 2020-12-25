@@ -3,11 +3,11 @@ using EleasThea.BackEnd.Contracts.QueueModels;
 using EleasThea.BackEnd.Contracts.TableStorageModels;
 using EleasThea.BackEnd.Extentions;
 using EleasThea.BackEnd.Serverless.Services.Utitlities;
+using HtmlAgilityPack;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace EleasThea.BackEnd.Serverless.Services.Functions
 {
@@ -36,7 +36,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
             transmission.GeneratePartitionAndRowKeys(sendEmailQueueItem.ReciepientAddress, null);
 
             // add img element to html content for registering open events in this webhook uri.
-            var body = sendEmailQueueItem.HtmlContent; /*AddWebhookUrl(sendEmailQueueItem.HtmlContent, $"https://platform-auth.free.beeceptor.com?tId={transmission.RowKey}");*/
+            var body = AddWebhookUrl(sendEmailQueueItem.HtmlContent, $"https://webhook.free.beeceptor.com?tId={transmission.RowKey}");
 
             var tries = 1;
             bool transmissionWasSuccessful = false;
@@ -68,24 +68,18 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
         /// <summary>
         /// Append a non visible img element at the bottom of the <body> element.
         /// </summary>
-        /// <param name="xml">HTML code to append the img tag.</param>
+        /// <param name="html">HTML code to append the img tag.</param>
         /// <param name="webhookUri">The URI to hit when the email is read.</param>
         /// <returns></returns>
-        private string AddWebhookUrl(string xml, string webhookUri)
+        private string AddWebhookUrl(string html, string webhookUri)
         {
-            // create new xml doc and load xml from string.
-            var doc = new XmlDocument();
-            doc.LoadXml(xml);
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(html);
 
-            // create xml navigator and select htmlBody node.
-            var navigator = doc.CreateNavigator();
-            var htmlBodyNode = navigator.SelectSingleNode("html/body");
+            var imgWebHookNode = HtmlNode.CreateNode($"<img style=\"visibility:hidden;\" src=\"{webhookUri}\"/>");
+            var bodyHtmlNode = htmlDoc.DocumentNode.AppendChild(imgWebHookNode);
 
-            // append img element for email opened event webhook.
-            htmlBodyNode.AppendChild($"<img width=\"1px\" height=\"1px\" src=\"{webhookUri}\"/>");
-
-            // return xml as string.
-            return doc.ToString();
+            return htmlDoc.DocumentNode.OuterHtml;
         }
     }
 }

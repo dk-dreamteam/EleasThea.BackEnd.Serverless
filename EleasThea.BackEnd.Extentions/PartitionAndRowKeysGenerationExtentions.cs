@@ -12,7 +12,7 @@ namespace EleasThea.BackEnd.Extentions
         /// <param name="presetPartitionKey">Optional preset PartitionKey to add. Default is Guid.NewGuid().</param>
         /// <param name="presetRowKey">Optional preset RowKey to add. Default is Guid.NewGuid().</param>
         /// <returns>TableEntity derived class object with Partition and Row keys.</returns>
-        public static TableEntity GeneratePartitionAndRowKeys(this TableEntity tableEntity, string presetPartitionKey = null, string presetRowKey = null)
+        public static T GeneratePartitionAndRowKeys<T>(this T tableEntity, string presetPartitionKey = null, string presetRowKey = null) where T : TableEntity
         {
             var newGuid = Guid.NewGuid();
             tableEntity.PartitionKey = presetPartitionKey ?? newGuid.ToString();
