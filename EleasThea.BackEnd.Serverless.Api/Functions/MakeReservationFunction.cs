@@ -19,14 +19,14 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
 {
     public static class MakeReservationFunction
     {
-        [FunctionName("MakeReservationFunction")]
+        [FunctionName(nameof(MakeReservationFunction))]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "reservations/{language}/{reservationType}")] HttpRequest req,
             string language,
             string reservationType,
-            [Table("Reservations")] CloudTable reservationsTable,
-            [Queue("send-emails")] ICollector<SendEmailQueueItem> sendEmailsQueue,
-            [Blob("resources")] CloudBlobContainer container,
+            [Table("%ReservationsTableName%")] CloudTable reservationsTable,
+            [Queue("%SendEmailQueueName%")] ICollector<SendEmailQueueItem> sendEmailsQueue,
+            [Blob("templates")] CloudBlobContainer container,
             ILogger logger)
         {
             try
@@ -47,7 +47,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
                                                     .AssignReservationType(reservationType)
                                                     .AssignLanguage(language)
                                                     .GeneratePartitionAndRowKeys<Reservation>(reservationMessage.Email, null);
-                
+
 
                 // save reservation to the reservations table.
                 var insertIntoTableOperation = TableOperation.Insert(reservation);
@@ -89,7 +89,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
 
                 logger.LogInformation($"Email object enqueued. Returning accepted result. stopping function...");
                 return new AcceptedResult();
-            }            
+            }
             catch (ArgumentException argExc)
             {
                 logger.LogError($"Message: {argExc.Message}");

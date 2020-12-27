@@ -13,10 +13,10 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
 {
     public static class WebhookEmailOpenedFunction
     {
-        [FunctionName("WebhookEmailOpenedFunction")]
+        [FunctionName(nameof(WebhookEmailOpenedFunction))]
         public static async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            [Table("Transmissions")] CloudTable transmissionsTable,
+            [Table("%TransmissionsTableName%")] CloudTable transmissionsTable,
             ILogger log)
         {
             // get transmission row key and email address from query params.

@@ -1,4 +1,5 @@
 ﻿using EleasThea.BackEnd.Serverless.Services;
+using EleasThea.BackEnd.Serverless.Services.Configuration;
 using EleasThea.BackEnd.Serverless.Services.Utitlities;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +37,7 @@ namespace EleasThea.BackEnd.Serverless.Services
                 };
             });
 
-            builder.Services.AddSingleton<IEmailUtility>(Factory =>
+            builder.Services.AddSingleton<IEmailUtility>(factory =>
             {
                 return new EmailUtility(builder.Services.BuildServiceProvider().GetRequiredService<SmtpClient>(), _config["EmailFrom"]);
             });

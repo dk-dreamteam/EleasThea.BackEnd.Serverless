@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace EleasThea.BackEnd.Serverless.Services.Functions
 {
-    public static class SendFeedbackFunction
+    public class SendFeedbackFunction
     {
-        [FunctionName("SendFeedbackFunction")]
+        [FunctionName(nameof(SendFeedbackFunction))]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "feedbacks")] HttpRequest req,
-            [Table("Feedbacks")] CloudTable feedbacksTable,
-            [Queue("send-emails")] ICollector<SendEmailQueueItem> sendEmailsQueue,
+            [Table("%FeedbacksTableName%")] CloudTable feedbacksTable,
+            [Queue("%SendEmailQueueName%")] ICollector<SendEmailQueueItem> sendEmailsQueue,
             [Blob("templates")] CloudBlobContainer container,
             ILogger logger)
         {

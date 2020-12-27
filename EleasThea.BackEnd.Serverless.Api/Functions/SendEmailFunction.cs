@@ -20,11 +20,13 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
             _emailUtil = emailUtil;
         }
 
-        [return: Table("Transmissions")]
-        [FunctionName("SendEmailFunction")]
-        public async Task<Transmission> RunAsync([QueueTrigger("send-emails")] SendEmailQueueItem sendEmailQueueItem,
+        [return: Table("%TransmissionsTableName%")]
+        [FunctionName(nameof(SendEmailFunction))]
+        public async Task<Transmission> RunAsync([QueueTrigger("%SendEmailQueueName%")] SendEmailQueueItem sendEmailQueueItem,
                                                  ILogger logger)
         {
+            logger.LogInformation($"Function:{nameof(SendEmailFunction)} started executing.");
+
             var transmission = new Transmission()
             {
                 TransmittedOnUtc = DateTime.UtcNow,
@@ -47,10 +49,12 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
                 {
                     await _emailUtil.SendEmailAsync(sendEmailQueueItem.ReciepientAddress, sendEmailQueueItem.Subject, body);
                     transmissionWasSuccessful = true;
+                    logger.LogInformation($"Transmission with partition key:{transmission.PartitionKey} and row key:{transmission.RowKey} successfully sent.");
                 }
                 catch (Exception exc)
                 {
                     transmissionWasSuccessful = false;
+                    logger.LogError($"Transmission with partition key:{transmission.PartitionKey} and row key:{transmission.RowKey} was not successfully sent. exception message: {exc.Message}, inner exception message: {exc.InnerException.Message}");
                 }
                 finally
                 {
