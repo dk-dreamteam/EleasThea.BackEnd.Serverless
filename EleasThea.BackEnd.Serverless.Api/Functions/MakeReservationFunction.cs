@@ -53,18 +53,18 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
                 var insertIntoTableOperation = TableOperation.Insert(reservation);
                 var insertionRes = await reservationsTable.ExecuteAsync(insertIntoTableOperation);
 
-                logger.LogInformation($"Reservation Insertion result:{insertionRes.Result}");
+                logger.LogInformation($"Reservation Insertion result:{insertionRes.HttpStatusCode}");
 
 
                 // retrieve email html templates for both customer and restaurant.
                 using var customerEmailHtmlStream = new MemoryStream();
-                await container.GetBlockBlobReference($"templates/customer/reservation/{reservation.MadeInLanguage.ToString().ToLower()}/{GetHtmlTemplateForCustomerFileName(reservation.Type)}")
+                await container.GetBlockBlobReference($"customer/reservation/{reservation.MadeInLanguage.ToString().ToLower()}/{GetHtmlTemplateForCustomerFileName(reservation.Type)}")
                                .DownloadToStreamAsync(customerEmailHtmlStream);
                 var customerEmailHtmlAsString = Encoding.UTF8.GetString(customerEmailHtmlStream.ToArray());
                 // todo: replace template vars with real data.
 
                 using var restaurantEmailHtmlStream = new MemoryStream();
-                await container.GetBlockBlobReference($"templates/customer/reservation/{reservation.MadeInLanguage.ToString().ToLower()}/{GetHtmlTemplateForRestaurantFileName(reservation.Type)}")
+                await container.GetBlockBlobReference($"restaurant/{GetHtmlReservationTemplateForRestaurantFileName(reservation.Type)}")
                                .DownloadToStreamAsync(customerEmailHtmlStream);
                 var restaurantEmailHtmlAsString = Encoding.UTF8.GetString(restaurantEmailHtmlStream.ToArray());
                 // todo: replace template vars with real data.
@@ -83,7 +83,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
                 {
                     ReferenceToReservationRowKey = reservation.RowKey,
                     HtmlContent = restaurantEmailHtmlAsString,
-                    ReciepientAddress = "eleasthea@eleasthea.gr", // todo: replace with real email.
+                    ReciepientAddress = "kon.kri@outlook.com", // todo: replace with real email.
                     Subject = "Νέα Κράτηση"
                 });
 
@@ -125,7 +125,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
         /// </summary>
         /// <param name="reservationType">Reservation type.</param>
         /// <returns></returns>
-        private static string GetHtmlTemplateForRestaurantFileName(ReservationType reservationType)
+        private static string GetHtmlReservationTemplateForRestaurantFileName(ReservationType reservationType)
         {
             switch (reservationType)
             {

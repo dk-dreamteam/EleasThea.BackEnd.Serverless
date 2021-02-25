@@ -6,6 +6,8 @@ using EleasThea.BackEnd.Serverless.Services.Utitlities;
 using HtmlAgilityPack;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Threading.Tasks;
 
@@ -22,7 +24,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
 
         [return: Table("%TransmissionsTableName%")]
         [FunctionName(nameof(SendEmailFunction))]
-        public async Task<Transmission> RunAsync([QueueTrigger("%SendEmailQueueName%")] SendEmailQueueItem sendEmailQueueItem,
+        public async Task<DynamicTableEntity> RunAsync([QueueTrigger("%SendEmailQueueName%")] SendEmailQueueItem sendEmailQueueItem,
                                                  ILogger logger)
         {
             logger.LogInformation($"Function:{nameof(SendEmailFunction)} started executing.");
@@ -33,6 +35,12 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
                 ReferenceToFeedbackRowKey = string.IsNullOrWhiteSpace(sendEmailQueueItem.ReferenceToFeedbackRowKey) ? null : sendEmailQueueItem.ReferenceToFeedbackRowKey,
                 ReferenceToReservationRowKey = string.IsNullOrWhiteSpace(sendEmailQueueItem.ReferenceToReservationRowKey) ? null : sendEmailQueueItem.ReferenceToReservationRowKey,
                 HtmlContent = sendEmailQueueItem.HtmlContent
+            };
+
+            var operationContext = new OperationContext();
+            var dynamicTableEntity = new DynamicTableEntity(transmission.PartitionKey, transmission.RowKey)
+            {
+                Properties = TableEntity.Flatten(transmission, operationContext)
             };
 
             transmission.GeneratePartitionAndRowKeys(sendEmailQueueItem.ReciepientAddress, null);
@@ -54,7 +62,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
                 catch (Exception exc)
                 {
                     transmissionWasSuccessful = false;
-                    logger.LogError($"Transmission with partition key:{transmission.PartitionKey} and row key:{transmission.RowKey} was not successfully sent. exception message: {exc.Message}, inner exception message: {exc.InnerException.Message}");
+                    logger.LogError($"Transmission with partition key:{transmission.PartitionKey} and row key:{transmission.RowKey} was not successfully sent. exception message: {exc.Message}, inner exception message: {exc.InnerException?.Message}");
                 }
                 finally
                 {
@@ -66,7 +74,7 @@ namespace EleasThea.BackEnd.Serverless.Services.Functions
             transmission.Status = transmissionWasSuccessful ? TransmissionStatus.Sent : TransmissionStatus.Unsuccessful;
 
             // return and add to transmissions table.
-            return transmission;
+            return dynamicTableEntity;
         }
 
         /// <summary>

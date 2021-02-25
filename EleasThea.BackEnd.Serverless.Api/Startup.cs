@@ -1,5 +1,4 @@
 ﻿using EleasThea.BackEnd.Serverless.Services;
-using EleasThea.BackEnd.Serverless.Services.Configuration;
 using EleasThea.BackEnd.Serverless.Services.Utitlities;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +25,7 @@ namespace EleasThea.BackEnd.Serverless.Services
         {
             builder.Services.AddSingleton(factory =>
             {
+                var asdf = _config["EmailPassword"];
                 return new SmtpClient()
                 {
                     Host = _config["EmailHost"],
